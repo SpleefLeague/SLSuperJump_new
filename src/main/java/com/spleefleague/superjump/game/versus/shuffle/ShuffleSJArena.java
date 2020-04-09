@@ -9,7 +9,8 @@ package com.spleefleague.superjump.game.versus.shuffle;
 import com.spleefleague.core.annotation.DBField;
 import com.spleefleague.core.game.Arena;
 import static com.spleefleague.core.game.Arena.getArenas;
-import com.spleefleague.core.menu.InventoryMenu;
+import com.spleefleague.core.menu.InventoryMenuAPI;
+import com.spleefleague.core.menu.InventoryMenuItem;
 import com.spleefleague.superjump.SuperJump;
 import com.spleefleague.superjump.game.SJMode;
 import com.spleefleague.superjump.game.versus.VersusSJArena;
@@ -52,21 +53,21 @@ public class ShuffleSJArena extends VersusSJArena {
         return jumpcount;
     }
     
-    public static InventoryMenu createMenu() {
+    public static InventoryMenuItem createMenu() {
         String mainColor = ChatColor.AQUA + "" + ChatColor.BOLD;
-        InventoryMenu menu = InventoryMenu.createMenu()
-                .setTitle("Shuffle SuperJump Menu")
+        InventoryMenuItem menuItem = InventoryMenuAPI.createItem()
                 .setName(mainColor + "SuperJump: Shuffle")
                 .setDescription("Shuffle Description")
-                .setDisplayItem(Material.DIAMOND_AXE, 20);
+                .setDisplayItem(Material.DIAMOND_AXE, 24)
+                .createLinkedContainer("Shuffle SuperJump Menu");
         
-        getArenas(SJMode.SHUFFLE.getArenaMode()).forEach((String s, Arena arena) -> menu.addMenuItem(InventoryMenu.createItem()
+        getArenas(SJMode.SHUFFLE.getArenaMode()).forEach((String s, Arena arena) -> menuItem.getLinkedContainer().addMenuItem(InventoryMenuAPI.createItem()
                 .setName(arena.getDisplayName())
                 .setDescription(cp -> arena.getDescription())
                 .setDisplayItem(Material.DIAMOND_AXE, 16 + arena.getDifficulty())
                 .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.SHUFFLE.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp), arena))));
         
-        return menu;
+        return menuItem;
     }
     
 }

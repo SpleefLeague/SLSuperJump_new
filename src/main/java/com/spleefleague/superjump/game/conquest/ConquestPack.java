@@ -9,8 +9,8 @@ package com.spleefleague.superjump.game.conquest;
 import com.mongodb.client.MongoCursor;
 import com.spleefleague.core.annotation.DBField;
 import com.spleefleague.core.game.Arena;
-import static com.spleefleague.core.game.Arena.getArenas;
-import com.spleefleague.core.menu.InventoryMenu;
+import com.spleefleague.core.menu.InventoryMenuAPI;
+import com.spleefleague.core.menu.InventoryMenuItem;
 import com.spleefleague.core.util.database.DBEntity;
 import com.spleefleague.superjump.SuperJump;
 import com.spleefleague.superjump.game.SJMode;
@@ -63,16 +63,17 @@ public class ConquestPack extends DBEntity {
         return name;
     }
     
-    public InventoryMenu createMenu() {
-        InventoryMenu menu = InventoryMenu.createMenu()
-                .setTitle("CQ Pack: " + name)
+    public InventoryMenuItem createMenu() {
+        InventoryMenuItem menu = InventoryMenuAPI.createItem()
                 .setName("Pack: " + name)
                 .setDescription(description)
-                .setDisplayItem(Material.DIAMOND_AXE, 20);
+                .setDisplayItem(Material.DIAMOND_AXE, 20)
+                .createLinkedContainer("CQ Pack: " + name);
         
         for (String a : arenas) {
             Arena arena = Arena.getByName(a, SJMode.CONQUEST.getArenaMode());
-            menu.addMenuItem(InventoryMenu.createItem()
+            menu.getLinkedContainer()
+                    .addMenuItem(InventoryMenuAPI.createItem()
                     .setName(arena.getName())
                     .setDescription(cp -> {
                         String desc = arena.getDescription() + "\n";
@@ -83,10 +84,10 @@ public class ConquestPack extends DBEntity {
                     .setDisplayItem(cp -> {
                         SuperJumpPlayer sjp = (SuperJumpPlayer) SuperJump.getInstance().getPlayers().get(cp);
                         switch (sjp.getConquestStats().getStars((ConquestSJArena) arena)) {
-                            case 3: return InventoryMenu.createItem(Material.DIAMOND_AXE, 16);
-                            case 2: return InventoryMenu.createItem(Material.DIAMOND_AXE, 17);
-                            case 1: return InventoryMenu.createItem(Material.DIAMOND_AXE, 18);
-                            default: return InventoryMenu.createItem(Material.DIAMOND_AXE, 19);
+                            case 3: return InventoryMenuAPI.createCustomItem(Material.DIAMOND_AXE, 16);
+                            case 2: return InventoryMenuAPI.createCustomItem(Material.DIAMOND_AXE, 17);
+                            case 1: return InventoryMenuAPI.createCustomItem(Material.DIAMOND_AXE, 18);
+                            default: return InventoryMenuAPI.createCustomItem(Material.DIAMOND_AXE, 19);
                         }
                         }))
                     .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.CONQUEST.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp), arena));

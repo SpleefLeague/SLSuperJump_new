@@ -9,7 +9,9 @@ package com.spleefleague.superjump;
 import com.mongodb.client.MongoDatabase;
 import com.spleefleague.core.Core;
 import com.spleefleague.core.game.Leaderboard;
-import com.spleefleague.core.menu.InventoryMenu;
+import com.spleefleague.core.menu.InventoryMenuAPI;
+import com.spleefleague.core.menu.InventoryMenuContainer;
+import com.spleefleague.core.menu.InventoryMenuItem;
 import com.spleefleague.core.player.PlayerManager;
 import com.spleefleague.core.plugin.CorePlugin;
 import com.spleefleague.superjump.commands.*;
@@ -18,7 +20,8 @@ import com.spleefleague.superjump.game.SJMode;
 import com.spleefleague.superjump.game.conquest.ConquestSJArena;
 import com.spleefleague.superjump.game.endless.EndlessSJArena;
 import com.spleefleague.superjump.game.pro.ProSJArena;
-import com.spleefleague.superjump.game.versus.VersusSJArena;
+import com.spleefleague.superjump.game.versus.classic.ClassicSJArena;
+import com.spleefleague.superjump.game.versus.shuffle.ShuffleSJArena;
 import com.spleefleague.superjump.player.SuperJumpPlayer;
 import org.bukkit.Material;
 
@@ -29,7 +32,7 @@ public class SuperJump extends CorePlugin {
     
     private static SuperJump instance;
     
-    private InventoryMenu superJumpMenu;
+    private InventoryMenuItem superJumpMenuItem;
     
     @Override
     public void init() {
@@ -49,8 +52,6 @@ public class SuperJump extends CorePlugin {
         SJArena.init();
         initMenu();
         initLeaderboards();
-        
-        playerManager.initOnline();
     }
     
     public static SuperJump getInstance() {
@@ -68,25 +69,31 @@ public class SuperJump extends CorePlugin {
         Core.getInstance().flushCommands();
     }
     
-    public InventoryMenu getSJMenu() {
-        return superJumpMenu;
+    public InventoryMenuItem getSJMenuItem() {
+        return superJumpMenuItem;
     }
     
     private void initMenu() {
-        superJumpMenu = InventoryMenu.createMenu()
-                .setTitle("SuperJump Menu")
+        superJumpMenuItem = InventoryMenuAPI.createItem()
                 .setName("SuperJump")
                 .setDescription("Jump and run your way to the finish line as fast as you can. Whether you are racing a single opponent, a group of friends, or even the clock, the objective is the same!")
                 .setDisplayItem(Material.LEATHER_BOOTS, 65);
         
-        superJumpMenu.addMenuItem(EndlessSJArena.createMenu(), 2);
-        superJumpMenu.addMenuItem(ConquestSJArena.createMenu(), 3);
-        superJumpMenu.addMenuItem(VersusSJArena.createMenu(), 4);
+        InventoryMenuContainer container = superJumpMenuItem.getLinkedContainer();
+        
+        container.addMenuItem(InventoryMenuAPI.createLockedMenuItem("Other"), 0, 2);
+        container.addMenuItem(InventoryMenuAPI.createLockedMenuItem("Tetronimo"), 1, 3);
+        container.addMenuItem(ShuffleSJArena.createMenu(), 2, 2);
+        container.addMenuItem(ConquestSJArena.createMenu(), 3, 3);
+        container.addMenuItem(EndlessSJArena.createMenu(), 4, 2);
+        container.addMenuItem(ClassicSJArena.createMenu(), 5, 3);
+        container.addMenuItem(ProSJArena.createMenu(), 6, 2);
+        container.addMenuItem(InventoryMenuAPI.createLockedMenuItem("Memory"), 7, 3);
+        container.addMenuItem(InventoryMenuAPI.createLockedMenuItem("Other"), 8, 2);
         //superJumpMenu.addMenuItem(PartySJArena.createMenu(), 5);
         //superJumpMenu.addMenuItem(PracticeSJArena.createMenu(), 6);
-        superJumpMenu.addMenuItem(ProSJArena.createMenu(), 7);
         
-        InventoryMenu.getHotbarMenu(InventoryMenu.InvMenuType.SLMENU).addMenuItem(superJumpMenu, 0, 1);
+        InventoryMenuAPI.getHotbarItem(InventoryMenuAPI.InvMenuType.SLMENU).getLinkedContainer().addMenuItem(superJumpMenuItem, 3, 3);
     }
     
     private void initLeaderboards() {

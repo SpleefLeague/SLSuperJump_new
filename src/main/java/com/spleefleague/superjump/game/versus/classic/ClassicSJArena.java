@@ -7,8 +7,8 @@
 package com.spleefleague.superjump.game.versus.classic;
 
 import com.spleefleague.core.game.Arena;
-import static com.spleefleague.core.game.Arena.getArenas;
-import com.spleefleague.core.menu.InventoryMenu;
+import com.spleefleague.core.menu.InventoryMenuAPI;
+import com.spleefleague.core.menu.InventoryMenuItem;
 import com.spleefleague.superjump.SuperJump;
 import com.spleefleague.superjump.game.SJArena;
 import com.spleefleague.superjump.game.SJMode;
@@ -25,32 +25,38 @@ public class ClassicSJArena extends SJArena {
         mode = SJMode.CLASSIC.getArenaMode();
     }
     
-    public static InventoryMenu createMenu() {
+    public static InventoryMenuItem createMenu() {
         String mainColor = ChatColor.AQUA + "" + ChatColor.BOLD;
-        InventoryMenu menu = InventoryMenu.createMenu()
-                .setTitle("Classic SuperJump Menu")
+        InventoryMenuItem menuItem = InventoryMenuAPI.createItem()
                 .setName(mainColor + "SuperJump: Classic")
                 .setDescription("Classic Description.")
-                .setDisplayItem(Material.DIAMOND_AXE, 20);
+                .setDisplayItem(Material.DIAMOND_AXE, 22)
+                .createLinkedContainer("SuperJump: Classic");
         
-        InventoryMenu mapMenu = InventoryMenu.createMenu()
-                .setTitle("Map Select: Classic Spleef")
+        InventoryMenuItem mapItem = InventoryMenuAPI.createItem()
                 .setName("Map Select: Classic Spleef")
-                .setDisplayItem(new ItemStack(Material.FILLED_MAP));
+                .setDisplayItem(Material.FILLED_MAP)
+                .createLinkedContainer("Map Select: Classic Spleef");
         
-        mapMenu.addMenuItem(InventoryMenu.createItem()
-                .setName("Random Arena")
-                .setDisplayItem(new ItemStack(Material.EMERALD))
-                .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.CLASSIC.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp))));
+        mapItem.getLinkedContainer()
+                .addMenuItem(InventoryMenuAPI.createItem()
+                        .setName("Random Arena")
+                        .setDisplayItem(Material.EMERALD));
         
-        getArenas(SJMode.CLASSIC.getArenaMode()).forEach((String s, Arena arena) -> mapMenu.addMenuItem(InventoryMenu.createItem()
+        Arena.getArenas(SJMode.CLASSIC.getArenaMode()).forEach((String s, Arena arena) -> mapItem.getLinkedContainer()
+                .addMenuItem(InventoryMenuAPI.createItem()
+                        .setName(arena.getDisplayName())
+                        .setDescription(cp -> arena.getDescription())
+                        .setDisplayItem(cp -> { return new ItemStack(Material.ENDER_EYE); })
+                        .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.ENDLESS.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp), arena))));
+        Arena.getArenas(SJMode.CLASSIC.getArenaMode()).forEach((String s, Arena arena) -> mapItem.getLinkedContainer().addMenuItem(InventoryMenuAPI.createItem()
                 .setName(arena.getDisplayName())
                 .setDescription(cp -> arena.getDescription())
                 .setDisplayItem(cp -> { return new ItemStack(Material.FILLED_MAP); })
                 .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.CLASSIC.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp), arena))));
         
-        menu.addMenuItem(mapMenu, 0);
+        menuItem.getLinkedContainer().addMenuItem(mapItem);
         
-        return menu;
+        return menuItem;
     }
 }

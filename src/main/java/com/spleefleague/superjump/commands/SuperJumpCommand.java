@@ -35,7 +35,7 @@ public class SuperJumpCommand extends CommandTemplate {
     
     @CommandAnnotation
     public void sj(CorePlayer sender) {
-        sender.setInventoryMenu(SuperJump.getInstance().getSJMenu());
+        sender.setInventoryMenuItem(SuperJump.getInstance().getSJMenuItem());
     }
     
     @CommandAnnotation
@@ -60,7 +60,7 @@ public class SuperJumpCommand extends CommandTemplate {
     public void sjConquest(CorePlayer sender, @LiteralArg(value="conquest") String l, @OptionArg(listName="conquestPacks") String packName) {
         ConquestPack pack = ConquestPack.getPack(packName);
         if (pack != null) {
-            sender.setInventoryMenu(pack.createMenu());
+            sender.setInventoryMenuItem(pack.createMenu());
         }
     }
     

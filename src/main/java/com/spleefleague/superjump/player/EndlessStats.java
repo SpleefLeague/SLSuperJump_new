@@ -11,6 +11,7 @@ import com.spleefleague.core.util.Day;
 import com.spleefleague.core.util.database.DBVariable;
 import com.spleefleague.core.util.database.DatabaseUtil;
 import com.spleefleague.superjump.game.SJMode;
+import com.spleefleague.superjump.game.endless.EndlessSJArena;
 import org.bson.Document;
 
 /**
@@ -73,8 +74,8 @@ public class EndlessStats implements DBVariable<Document> {
     public void incrementLevel() {
         level++;
         if (level > highestLevel) setHighestLevel(level);
-        Leaderboard.setPlayerScore(SJMode.ENDLESS.getArenaMode().getName() + "DAILY", sjp.getUniqueId(), level);
-        Leaderboard.setPlayerScore(SJMode.ENDLESS.getArenaMode().getName() + "BEST", sjp.getUniqueId(), highestLevel);
+        Leaderboard.setPlayerScore(EndlessSJArena.EndlessLeaderboard.DAILY.getName(), sjp.getUniqueId(), level);
+        Leaderboard.setPlayerScore(EndlessSJArena.EndlessLeaderboard.BEST.getName(), sjp.getUniqueId(), highestLevel);
     }
     
     public void incrementFalls() {

@@ -17,7 +17,6 @@ import com.spleefleague.core.util.TimeUtils;
 import com.spleefleague.core.util.database.DBPlayer;
 import com.spleefleague.core.world.FakeBlock;
 import com.spleefleague.superjump.game.SJBattle;
-import com.spleefleague.superjump.game.SJMode;
 import com.spleefleague.superjump.player.SuperJumpPlayer;
 import java.time.LocalDate;
 import java.util.Iterator;
@@ -106,15 +105,15 @@ public class EndlessSJBattle extends SJBattle<EndlessSJArena> {
     public void updateScoreboard() {
         BattlePlayer bp = battlers.values().iterator().next();
         chatGroup.setTeamName("TodayPersonal", ChatColor.AQUA + " Personal: " + bp.player.getEndlessStats().getLevel() +
-                "[" + CoreUtils.getPlaceSuffixed(Leaderboard.getPlace(SJMode.ENDLESS.getArenaMode().getName() + "DAILY", bp.player.getUniqueId())) + "]");
+                "[" + CoreUtils.getPlaceSuffixed(Leaderboard.getPlace(EndlessSJArena.EndlessLeaderboard.DAILY.getName(), bp.player.getUniqueId())) + "]");
         chatGroup.setTeamName("TodayServer", ChatColor.AQUA + " Server: " +
-                Leaderboard.getLeadingPlayerName(SJMode.ENDLESS.getArenaMode().getName() + "DAILY") +
-                ChatColor.AQUA + "[" + Leaderboard.getLeadingPlayerScore(SJMode.ENDLESS.getArenaMode().getName() + "DAILY") + "]");
+                Leaderboard.getLeadingPlayerName(EndlessSJArena.EndlessLeaderboard.DAILY.getName()) +
+                ChatColor.AQUA + "[" + Leaderboard.getLeadingPlayerScore(EndlessSJArena.EndlessLeaderboard.DAILY.getName()) + "]");
         chatGroup.setTeamName("RecordPersonal", ChatColor.AQUA + " Personal: " + bp.player.getEndlessStats().getHighestLevel() +
-                "[" + CoreUtils.getPlaceSuffixed(Leaderboard.getPlace(SJMode.ENDLESS.getArenaMode().getName() + "BEST", bp.player.getUniqueId())) + "]");
+                "[" + CoreUtils.getPlaceSuffixed(Leaderboard.getPlace(EndlessSJArena.EndlessLeaderboard.BEST.getName(), bp.player.getUniqueId())) + "]");
         chatGroup.setTeamName("RecordServer", ChatColor.AQUA + " Server: " +
-                Leaderboard.getLeadingPlayerName(SJMode.ENDLESS.getArenaMode().getName() + "BEST") +
-                ChatColor.AQUA + "[" + Leaderboard.getLeadingPlayerScore(SJMode.ENDLESS.getArenaMode().getName() + "BEST") + "]");
+                Leaderboard.getLeadingPlayerName(EndlessSJArena.EndlessLeaderboard.BEST.getName()) +
+                ChatColor.AQUA + "[" + Leaderboard.getLeadingPlayerScore(EndlessSJArena.EndlessLeaderboard.BEST.getName()) + "]");
         chatGroup.setTeamName("TimeReset", ChatColor.AQUA + " Reset In: " + getResetTimeStr());
         
         if (getResetTime() <= 0) {

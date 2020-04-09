@@ -19,7 +19,7 @@ import com.spleefleague.superjump.game.versus.shuffle.*;
  * @author NickM13
  */
 public enum SJMode {
-
+    
     CLASSIC(true),
     SHUFFLE(true),
     CONQUEST(true),

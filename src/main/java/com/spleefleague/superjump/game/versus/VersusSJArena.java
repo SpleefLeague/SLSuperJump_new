@@ -6,7 +6,8 @@
 
 package com.spleefleague.superjump.game.versus;
 
-import com.spleefleague.core.menu.InventoryMenu;
+import com.spleefleague.core.menu.InventoryMenuAPI;
+import com.spleefleague.core.menu.InventoryMenuItem;
 import com.spleefleague.superjump.game.SJArena;
 import com.spleefleague.superjump.game.versus.classic.ClassicSJArena;
 import com.spleefleague.superjump.game.versus.shuffle.ShuffleSJArena;
@@ -18,17 +19,17 @@ import org.bukkit.Material;
  */
 public class VersusSJArena extends SJArena {
 
-    public static InventoryMenu createMenu() {
+    public static InventoryMenuItem createMenu() {
         String mainColor = ChatColor.AQUA + "" + ChatColor.BOLD;
-        InventoryMenu menu = InventoryMenu.createMenu()
-                .setTitle("Versus SuperJump Menu")
+        InventoryMenuItem menuItem = InventoryMenuAPI.createItem()
                 .setName(mainColor + "SuperJump: Versus")
                 .setDescription("The SuperJump multiplayer experience.")
-                .setDisplayItem(Material.DIAMOND_AXE, 22);
+                .setDisplayItem(Material.DIAMOND_AXE, 22)
+                .createLinkedContainer("Versus SuperJump Menu");
         
-        menu.addMenuItem(ClassicSJArena.createMenu(), 3);
-        menu.addMenuItem(ShuffleSJArena.createMenu(), 5);
+        menuItem.getLinkedContainer().addMenuItem(ClassicSJArena.createMenu(), 3);
+        menuItem.getLinkedContainer().addMenuItem(ShuffleSJArena.createMenu(), 5);
         
-        return menu;
+        return menuItem;
     }
 }

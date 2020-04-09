@@ -7,8 +7,8 @@
 package com.spleefleague.superjump.game.pro;
 
 import com.spleefleague.core.game.Arena;
-import static com.spleefleague.core.game.Arena.getArenas;
-import com.spleefleague.core.menu.InventoryMenu;
+import com.spleefleague.core.menu.InventoryMenuAPI;
+import com.spleefleague.core.menu.InventoryMenuItem;
 import com.spleefleague.superjump.SuperJump;
 import com.spleefleague.superjump.game.SJArena;
 import com.spleefleague.superjump.game.SJMode;
@@ -25,31 +25,31 @@ public class ProSJArena extends SJArena {
         mode = SJMode.PRO.getArenaMode();
     }
     
-    public static InventoryMenu createMenu() {
+    public static InventoryMenuItem createMenu() {
         String mainColor = ChatColor.AQUA + "" + ChatColor.BOLD;
-        InventoryMenu spleefMenu = InventoryMenu.createMenu()
-                .setTitle("Pro SuperJump Menu")
+        InventoryMenuItem spleefMenu = InventoryMenuAPI.createItem()
                 .setName(mainColor + "SuperJump: Pro")
                 .setDescription("Pro Description.")
-                .setDisplayItem(Material.DIAMOND_AXE, 20);
+                .setDisplayItem(Material.DIAMOND_AXE, 23)
+                .createLinkedContainer("Pro SuperJump Menu");
         
-        InventoryMenu spleefMapMenu = InventoryMenu.createMenu()
-                .setTitle("Map Select: Pro Spleef")
+        InventoryMenuItem mapMenuItem = InventoryMenuAPI.createItem()
                 .setName("Map Select: Pro Spleef")
-                .setDisplayItem(new ItemStack(Material.FILLED_MAP));
+                .setDisplayItem(new ItemStack(Material.FILLED_MAP))
+                .createLinkedContainer("Map Select: Pro Spleef");
         
-        spleefMapMenu.addMenuItem(InventoryMenu.createItem()
+        mapMenuItem.getLinkedContainer().addMenuItem(InventoryMenuAPI.createItem()
                 .setName("Random Arena")
                 .setDisplayItem(new ItemStack(Material.EMERALD))
                 .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.PRO.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp))));
         
-        getArenas(SJMode.PRO.getArenaMode()).forEach((String s, Arena arena) -> spleefMapMenu.addMenuItem(InventoryMenu.createItem()
+        getArenas(SJMode.PRO.getArenaMode()).forEach((String s, Arena arena) -> mapMenuItem.getLinkedContainer().addMenuItem(InventoryMenuAPI.createItem()
                 .setName(arena.getDisplayName())
                 .setDescription(cp -> arena.getDescription())
                 .setDisplayItem(cp -> { return new ItemStack(Material.FILLED_MAP); })
                 .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.PRO.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp), arena))));
         
-        spleefMenu.addMenuItem(spleefMapMenu, 0);
+        spleefMenu.getLinkedContainer().addMenuItem(mapMenuItem, 0);
         
         return spleefMenu;
     }

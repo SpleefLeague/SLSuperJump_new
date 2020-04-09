@@ -8,7 +8,8 @@ package com.spleefleague.superjump.game.conquest;
 
 import com.spleefleague.core.annotation.DBField;
 import com.spleefleague.core.annotation.DBLoad;
-import com.spleefleague.core.menu.InventoryMenu;
+import com.spleefleague.core.menu.InventoryMenuAPI;
+import com.spleefleague.core.menu.InventoryMenuItem;
 import com.spleefleague.superjump.game.SJArena;
 import com.spleefleague.superjump.game.SJMode;
 import java.util.Collections;
@@ -45,19 +46,21 @@ public class ConquestSJArena extends SJArena {
         mode = SJMode.CONQUEST.getArenaMode();
     }
     
-    public static InventoryMenu createMenu() {
+    public static InventoryMenuItem createMenu() {
         String mainColor = ChatColor.AQUA + "" + ChatColor.BOLD;
-        InventoryMenu menu = InventoryMenu.createMenu()
-                .setTitle("Conquest SuperJump Menu")
+        InventoryMenuItem menuItem = InventoryMenuAPI.createItem()
                 .setName(mainColor + "SuperJump: Conquest")
-                .setDescription("Conquest Description")
+                .setDescription("Conquest Description.")
                 .setDisplayItem(Material.DIAMOND_AXE, 21);
+        menuItem.getLinkedContainer()
+                .setTitle("SuperJump: Conquest");
         
         ConquestPack.init();
         for (ConquestPack pack : ConquestPack.getAllPacks()) {
-            menu.addMenuItem(pack.createMenu());
+            menuItem.getLinkedContainer()
+                    .addMenuItem(pack.createMenu());
         }
         
-        return menu;
+        return menuItem;
     }
 }
