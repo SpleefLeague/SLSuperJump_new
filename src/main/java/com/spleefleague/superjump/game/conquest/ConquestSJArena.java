@@ -10,6 +10,7 @@ import com.spleefleague.core.annotation.DBField;
 import com.spleefleague.core.annotation.DBLoad;
 import com.spleefleague.core.menu.InventoryMenuAPI;
 import com.spleefleague.core.menu.InventoryMenuItem;
+import com.spleefleague.superjump.SuperJump;
 import com.spleefleague.superjump.game.SJArena;
 import com.spleefleague.superjump.game.SJMode;
 import java.util.Collections;
@@ -46,7 +47,7 @@ public class ConquestSJArena extends SJArena {
         mode = SJMode.CONQUEST.getArenaMode();
     }
     
-    public static InventoryMenuItem createMenu() {
+    public static void createMenu(int x, int y) {
         String mainColor = ChatColor.AQUA + "" + ChatColor.BOLD;
         InventoryMenuItem menuItem = InventoryMenuAPI.createItem()
                 .setName(mainColor + "SuperJump: Conquest")
@@ -61,6 +62,6 @@ public class ConquestSJArena extends SJArena {
                     .addMenuItem(pack.createMenu());
         }
         
-        return menuItem;
+        SuperJump.getInstance().getSJMenuItem().getLinkedContainer().addMenuItem(menuItem, x, y);
     }
 }

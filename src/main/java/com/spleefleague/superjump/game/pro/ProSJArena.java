@@ -25,33 +25,28 @@ public class ProSJArena extends SJArena {
         mode = SJMode.PRO.getArenaMode();
     }
     
-    public static InventoryMenuItem createMenu() {
+    public static void createMenu(int x, int y) {
         String mainColor = ChatColor.AQUA + "" + ChatColor.BOLD;
-        InventoryMenuItem spleefMenu = InventoryMenuAPI.createItem()
+        InventoryMenuItem menuItem = InventoryMenuAPI.createItem()
                 .setName(mainColor + "SuperJump: Pro")
                 .setDescription("Pro Description.")
                 .setDisplayItem(Material.DIAMOND_AXE, 23)
                 .createLinkedContainer("Pro SuperJump Menu");
         
-        InventoryMenuItem mapMenuItem = InventoryMenuAPI.createItem()
-                .setName("Map Select: Pro Spleef")
-                .setDisplayItem(new ItemStack(Material.FILLED_MAP))
-                .createLinkedContainer("Map Select: Pro Spleef");
-        
-        mapMenuItem.getLinkedContainer().addMenuItem(InventoryMenuAPI.createItem()
+        menuItem.getLinkedContainer().addMenuItem(InventoryMenuAPI.createItem()
                 .setName("Random Arena")
                 .setDisplayItem(new ItemStack(Material.EMERALD))
                 .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.PRO.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp))));
         
-        getArenas(SJMode.PRO.getArenaMode()).forEach((String s, Arena arena) -> mapMenuItem.getLinkedContainer().addMenuItem(InventoryMenuAPI.createItem()
+        getArenas(SJMode.PRO.getArenaMode()).forEach((String s, Arena arena) -> menuItem.getLinkedContainer().addMenuItem(InventoryMenuAPI.createItem()
                 .setName(arena.getDisplayName())
                 .setDescription(cp -> arena.getDescription())
                 .setDisplayItem(cp -> { return new ItemStack(Material.FILLED_MAP); })
                 .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.PRO.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp), arena))));
         
-        spleefMenu.getLinkedContainer().addMenuItem(mapMenuItem, 0);
+        menuItem.getLinkedContainer().addMenuItem(menuItem, 0);
         
-        return spleefMenu;
+        SuperJump.getInstance().getSJMenuItem().getLinkedContainer().addMenuItem(menuItem, x, y);
     }
 
 }

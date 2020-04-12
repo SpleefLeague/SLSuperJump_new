@@ -53,7 +53,7 @@ public class ShuffleSJArena extends VersusSJArena {
         return jumpcount;
     }
     
-    public static InventoryMenuItem createMenu() {
+    public static void createMenu(int x, int y) {
         String mainColor = ChatColor.AQUA + "" + ChatColor.BOLD;
         InventoryMenuItem menuItem = InventoryMenuAPI.createItem()
                 .setName(mainColor + "SuperJump: Shuffle")
@@ -67,7 +67,7 @@ public class ShuffleSJArena extends VersusSJArena {
                 .setDisplayItem(Material.DIAMOND_AXE, 16 + arena.getDifficulty())
                 .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.SHUFFLE.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp), arena))));
         
-        return menuItem;
+        SuperJump.getInstance().getSJMenuItem().getLinkedContainer().addMenuItem(menuItem, x, y);
     }
     
 }

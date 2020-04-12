@@ -31,13 +31,13 @@ public enum SJMode {
     private final boolean queue;
     
     public static void init() {
-        ArenaMode.addArenaMode("SJ_CLASSIC", "SuperJump: Classic", 2, ArenaMode.TeamStyle.MULTI_STATIC, false, ClassicSJArena.class, ClassicSJBattle.class);
-        ArenaMode.addArenaMode("SJ_SHUFFLE", "SuperJump: Shuffle", 2, ArenaMode.TeamStyle.MULTI_STATIC, false, ShuffleSJArena.class, ShuffleSJBattle.class);
-        ArenaMode.addArenaMode("SJ_CONQUEST", "SuperJump: Conquest", 1, ArenaMode.TeamStyle.SINGLE, false, ConquestSJArena.class, ConquestSJBattle.class);
-        ArenaMode.addArenaMode("SJ_ENDLESS", "SuperJump: Endless", 1, ArenaMode.TeamStyle.SINGLE, false, EndlessSJArena.class, EndlessSJBattle.class);
-        ArenaMode.addArenaMode("SJ_PARTY", "SuperJump: Party", 2, ArenaMode.TeamStyle.MULTI_STATIC, false, PartySJArena.class, PartySJBattle.class);
-        ArenaMode.addArenaMode("SJ_PRACTICE", "SuperJump: Practice", 1, ArenaMode.TeamStyle.SINGLE, false, PracticeSJArena.class, PracticeSJBattle.class);
-        ArenaMode.addArenaMode("SJ_PRO", "SuperJump: Pro", 1, ArenaMode.TeamStyle.SINGLE, false, ProSJArena.class, ProSJBattle.class);
+        ArenaMode.addArenaMode("SJ_CLASSIC", "SuperJump: Classic", 2, 2, ArenaMode.TeamStyle.MULTI_STATIC, false, ClassicSJArena.class, ClassicSJBattle.class);
+        ArenaMode.addArenaMode("SJ_SHUFFLE", "SuperJump: Shuffle", 2, 2, ArenaMode.TeamStyle.MULTI_STATIC, false, ShuffleSJArena.class, ShuffleSJBattle.class);
+        ArenaMode.addArenaMode("SJ_CONQUEST", "SuperJump: Conquest", 1, 1, ArenaMode.TeamStyle.SOLO, false, ConquestSJArena.class, ConquestSJBattle.class);
+        ArenaMode.addArenaMode("SJ_ENDLESS", "SuperJump: Endless", 1, 1, ArenaMode.TeamStyle.SOLO, false, EndlessSJArena.class, EndlessSJBattle.class);
+        ArenaMode.addArenaMode("SJ_PARTY", "SuperJump: Party", 2, 2, ArenaMode.TeamStyle.MULTI_STATIC, false, PartySJArena.class, PartySJBattle.class);
+        ArenaMode.addArenaMode("SJ_PRACTICE", "SuperJump: Practice", 1, 1, ArenaMode.TeamStyle.SOLO, false, PracticeSJArena.class, PracticeSJBattle.class);
+        ArenaMode.addArenaMode("SJ_PRO", "SuperJump: Pro", 1, 1, ArenaMode.TeamStyle.SOLO, false, ProSJArena.class, ProSJBattle.class);
     }
     
     private SJMode(boolean queue) {

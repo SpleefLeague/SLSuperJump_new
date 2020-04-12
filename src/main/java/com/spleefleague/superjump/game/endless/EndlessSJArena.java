@@ -8,6 +8,7 @@ package com.spleefleague.superjump.game.endless;
 
 import com.spleefleague.core.annotation.DBField;
 import com.spleefleague.core.game.Arena;
+import com.spleefleague.core.game.Leaderboard;
 import com.spleefleague.core.menu.InventoryMenuAPI;
 import com.spleefleague.core.menu.InventoryMenuItem;
 import com.spleefleague.superjump.SuperJump;
@@ -45,10 +46,19 @@ public class EndlessSJArena extends SJArena {
     }
     
     public static void initLeaderboard() {
-        
+        Leaderboard.init(EndlessSJArena.EndlessLeaderboard.DAILY.getName(),
+                Leaderboard.LeaderboardStyle.DAILY,
+                "SJ Endless Daily",
+                InventoryMenuAPI.createCustomItem(Material.DARK_OAK_SIGN),
+                "Endless Daily Description");
+        Leaderboard.init(EndlessSJArena.EndlessLeaderboard.BEST.getName(),
+                Leaderboard.LeaderboardStyle.ALLTIME,
+                "SJ Endless Alltime",
+                InventoryMenuAPI.createCustomItem(Material.DARK_OAK_SIGN),
+                "Endless Alltime Description");
     }
     
-    public static InventoryMenuItem createMenu() {
+    public static void createMenu(int x, int y) {
         String mainColor = ChatColor.AQUA + "" + ChatColor.BOLD;
         InventoryMenuItem menuItem = InventoryMenuAPI.createItem()
                 .setName(mainColor + "SuperJump: Endless")
@@ -65,7 +75,7 @@ public class EndlessSJArena extends SJArena {
                         .setDisplayItem(cp -> { return new ItemStack(Material.ENDER_EYE); })
                         .setAction(cp -> SuperJump.getInstance().queuePlayer(SJMode.ENDLESS.getArenaMode(), SuperJump.getInstance().getPlayers().get(cp), arena))));
         
-        return menuItem;
+        SuperJump.getInstance().getSJMenuItem().getLinkedContainer().addMenuItem(menuItem, x, y);
     }
     
     public int getJumpCount() {

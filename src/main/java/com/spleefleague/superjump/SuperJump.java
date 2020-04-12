@@ -81,15 +81,15 @@ public class SuperJump extends CorePlugin {
         
         InventoryMenuContainer container = superJumpMenuItem.getLinkedContainer();
         
-        container.addMenuItem(InventoryMenuAPI.createLockedMenuItem("Other"), 0, 2);
+        container.addMenuItem(InventoryMenuAPI.createLockedMenuItem("Party"), 0, 2);
         container.addMenuItem(InventoryMenuAPI.createLockedMenuItem("Tetronimo"), 1, 3);
-        container.addMenuItem(ShuffleSJArena.createMenu(), 2, 2);
-        container.addMenuItem(ConquestSJArena.createMenu(), 3, 3);
-        container.addMenuItem(EndlessSJArena.createMenu(), 4, 2);
-        container.addMenuItem(ClassicSJArena.createMenu(), 5, 3);
-        container.addMenuItem(ProSJArena.createMenu(), 6, 2);
+        ShuffleSJArena.createMenu(2, 2);
+        ConquestSJArena.createMenu(3, 3);
+        EndlessSJArena.createMenu(4, 2);
+        ClassicSJArena.createMenu(5, 3);
+        ProSJArena.createMenu(6, 2);
         container.addMenuItem(InventoryMenuAPI.createLockedMenuItem("Memory"), 7, 3);
-        container.addMenuItem(InventoryMenuAPI.createLockedMenuItem("Other"), 8, 2);
+        container.addMenuItem(InventoryMenuAPI.createLockedMenuItem("Practice"), 8, 2);
         //superJumpMenu.addMenuItem(PartySJArena.createMenu(), 5);
         //superJumpMenu.addMenuItem(PracticeSJArena.createMenu(), 6);
         
@@ -97,8 +97,7 @@ public class SuperJump extends CorePlugin {
     }
     
     private void initLeaderboards() {
-        Leaderboard.init(EndlessSJArena.EndlessLeaderboard.DAILY.getName(), Leaderboard.LeaderboardStyle.DAILY);
-        Leaderboard.init(EndlessSJArena.EndlessLeaderboard.BEST.getName(), Leaderboard.LeaderboardStyle.ALLTIME);
+        EndlessSJArena.initLeaderboard();
     }
     
     @Override
